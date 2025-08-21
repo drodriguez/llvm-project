@@ -88,8 +88,14 @@ struct macho::TrieNode {
   // This will converge to the true offset when updateOffset() is run to a
   // fixpoint.
   size_t offset = 0;
+  // Estimated size of the constant pieces from te node (everything except the
+  // children offsets).
+  size_t underestimatedSize = 0;
 
   uint32_t getTerminalSize() const;
+  // Calculates the underestimation of the node size, and using the
+  // estimatedOffset, returns an underestimation of the next offset.
+  size_t calculateUnderestimatedSize(size_t estimatedOffset);
   // Returns whether the new estimated offset differs from the old one.
   bool updateOffset(size_t &nextOffset);
   void writeTo(uint8_t *buf) const;
@@ -133,25 +139,40 @@ uint32_t TrieNode::getTerminalSize() const {
   return size;
 }
 
-bool TrieNode::updateOffset(size_t &nextOffset) {
-  // Size of the whole node (including the terminalSize and the outgoing edges.)
-  // In contrast, terminalSize only records the size of the other data in the
-  // node.
-  size_t nodeSize;
+size_t TrieNode::calculateUnderestimatedSize(size_t estimatedOffset) {
+  underestimatedSize = 0;
   if (info) {
     uint32_t terminalSize = getTerminalSize();
     // Overall node size so far is the uleb128 size of the length of the symbol
     // info + the symbol info itself.
-    nodeSize = terminalSize + getULEB128Size(terminalSize);
+    underestimatedSize = terminalSize + getULEB128Size(terminalSize);
   } else {
-    nodeSize = 1; // Size of terminalSize (which has a value of 0)
+    underestimatedSize = 1; // Size of terminalSize (which has a value of 0)
   }
-  // Compute size of all child edges.
-  ++nodeSize; // Byte for number of children.
-  for (const Edge &edge : edges) {
-    nodeSize += edge.substring.size() + 1             // String length.
-                + getULEB128Size(edge.child->offset); // Offset len.
-  }
+  // Compute size of child edges substrings.
+  ++underestimatedSize; // Byte for number of children.
+  for (const Edge &edge : edges)
+    underestimatedSize += edge.substring.size() + 1;  // String length.
+
+  offset = estimatedOffset;
+
+  // The minimum offset for the children is the current offset +
+  // nodeSize until now + N * getULEB128Size of the previous quantity
+  size_t minimumChildOffset = estimatedOffset + underestimatedSize;
+  minimumChildOffset += edges.size() * getULEB128Size(minimumChildOffset);
+
+  return minimumChildOffset;
+}
+
+bool TrieNode::updateOffset(size_t &nextOffset) {
+  // Size of the whole node (including the terminalSize and the outgoing edges.)
+  // In contrast, underestimatedSize do not keep track of the sizes of the
+  // children offsets.
+  size_t nodeSize = underestimatedSize;
+  // Compute the actual size of the child edges offsets
+  for (const Edge &edge : edges)
+    nodeSize += getULEB128Size(edge.child->offset);
+
   // On input, 'nextOffset' is the new preferred location for this node.
   bool result = (offset != nextOffset);
   // Store new location in node object for use by parents.
@@ -274,7 +295,13 @@ size_t TrieBuilder::build() {
 
   // Assign each node in the vector an offset in the trie stream, iterating
   // until all uleb128 sizes have stabilized.
-  size_t offset;
+  size_t offset = 0;
+
+  // Calculate underestimated sizes and initial offsets.
+  for (TrieNode *node : nodes)
+    offset = node->calculateUnderestimatedSize(offset);
+
+  // Calculate final offsets until fixed point
   bool more;
   do {
     offset = 0;

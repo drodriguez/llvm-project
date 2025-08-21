@@ -1,0 +1,636 @@
+# REQUIRES: x86
+# RUN: llvm-mc -filetype=obj -triple=x86_64-apple-darwin %s -o %t.o
+# RUN: %lld %t.o -o %t
+
+.globl _OBJC_CLASS_$_GHODictionary, _OBJC_CLASS_$_MPMessagePackReader, _OBJC_CLASS_$_MPMessagePackWriter, _OBJC_CLASS_$_SPTAppRemoteAlbumEntity, _OBJC_CLASS_$_SPTAppRemoteArtistEntity, _OBJC_CLASS_$_SPTAppRemoteCallHandler, _OBJC_CLASS_$_SPTAppRemoteCallRequest, _OBJC_CLASS_$_SPTAppRemoteCallResponse, _OBJC_CLASS_$_SPTAppRemoteConnectionParams, _OBJC_CLASS_$_SPTAppRemoteConnectivityAPIImplementation, _OBJC_CLASS_$_SPTAppRemoteConnectivityStateEntity, _OBJC_CLASS_$_SPTAppRemoteContentAPIImplementation, _OBJC_CLASS_$_SPTAppRemoteContentItemEntity, _OBJC_CLASS_$_SPTAppRemoteCrossfadeStateEntity, _OBJC_CLASS_$_SPTAppRemoteImageAPIImplementation, _OBJC_CLASS_$_SPTAppRemoteLibraryStateEntity, _OBJC_CLASS_$_SPTAppRemoteLogger, _OBJC_CLASS_$_SPTAppRemoteMessageAbort, _OBJC_CLASS_$_SPTAppRemoteMessageAuthenticate, _OBJC_CLASS_$_SPTAppRemoteMessageCall, _OBJC_CLASS_$_SPTAppRemoteMessageCancel, _OBJC_CLASS_$_SPTAppRemoteMessageChallenge, _OBJC_CLASS_$_SPTAppRemoteMessageError, _OBJC_CLASS_$_SPTAppRemoteMessageEvent, _OBJC_CLASS_$_SPTAppRemoteMessageGoodbye, _OBJC_CLASS_$_SPTAppRemoteMessageHello, _OBJC_CLASS_$_SPTAppRemoteMessageResult, _OBJC_CLASS_$_SPTAppRemoteMessageStreamReader, _OBJC_CLASS_$_SPTAppRemoteMessageStreamWriter, _OBJC_CLASS_$_SPTAppRemoteMessageSubscribed, _OBJC_CLASS_$_SPTAppRemoteMessageSubscribe, _OBJC_CLASS_$_SPTAppRemoteMessageUnsubscribed, _OBJC_CLASS_$_SPTAppRemoteMessageUnsubscribe, _OBJC_CLASS_$_SPTAppRemoteMessageWelcome, _OBJC_CLASS_$_SPTAppRemoteMessage, _OBJC_CLASS_$_SPTAppRemotePayloadProxy, _OBJC_CLASS_$_SPTAppRemotePlaybackOptionsEntity, _OBJC_CLASS_$_SPTAppRemotePlaybackRestrictionsEntity, _OBJC_CLASS_$_SPTAppRemotePlayerAPIImplemenation, _OBJC_CLASS_$_SPTAppRemotePlayerStateEntity, _OBJC_CLASS_$_SPTAppRemotePodcastPlaybackSpeedEntity, _OBJC_CLASS_$_SPTAppRemoteRouter, _OBJC_CLASS_$_SPTAppRemoteSessionHandler, _OBJC_CLASS_$_SPTAppRemoteSession, _OBJC_CLASS_$_SPTAppRemoteSocketTransport, _OBJC_CLASS_$_SPTAppRemoteStreamTransport, _OBJC_CLASS_$_SPTAppRemoteSubscriptionEvent, _OBJC_CLASS_$_SPTAppRemoteSubscriptionHandler, _OBJC_CLASS_$_SPTAppRemoteSubscriptionRequest, _OBJC_CLASS_$_SPTAppRemoteSubscription, _OBJC_CLASS_$_SPTAppRemoteTrackEntity, _OBJC_CLASS_$_SPTAppRemoteUserAPIImplementation, _OBJC_CLASS_$_SPTAppRemoteUserCapabilitiesEntity, _OBJC_CLASS_$_SPTAppRemoteWAMPClient, _OBJC_CLASS_$_SPTAppRemote, _OBJC_CLASS_$_SPTConfiguration, _OBJC_CLASS_$_SPTErrorUtils, _OBJC_CLASS_$_SPTError, _OBJC_CLASS_$_SPTExtendedConfiguration, _OBJC_CLASS_$_SPTPKCEProvider, _OBJC_CLASS_$_SPTSessionManager, _OBJC_CLASS_$_SPTSession, _OBJC_CLASS_$_SPTURLUtils, _OBJC_METACLASS_$_GHODictionary, _OBJC_METACLASS_$_MPMessagePackReader, _OBJC_METACLASS_$_MPMessagePackWriter, _OBJC_METACLASS_$_SPTAppRemoteAlbumEntity, _OBJC_METACLASS_$_SPTAppRemoteArtistEntity, _OBJC_METACLASS_$_SPTAppRemoteCallHandler, _OBJC_METACLASS_$_SPTAppRemoteCallRequest, _OBJC_METACLASS_$_SPTAppRemoteCallResponse, _OBJC_METACLASS_$_SPTAppRemoteConnectionParams, _OBJC_METACLASS_$_SPTAppRemoteConnectivityAPIImplementation, _OBJC_METACLASS_$_SPTAppRemoteConnectivityStateEntity, _OBJC_METACLASS_$_SPTAppRemoteContentAPIImplementation, _OBJC_METACLASS_$_SPTAppRemoteContentItemEntity, _OBJC_METACLASS_$_SPTAppRemoteCrossfadeStateEntity, _OBJC_METACLASS_$_SPTAppRemoteImageAPIImplementation, _OBJC_METACLASS_$_SPTAppRemoteLibraryStateEntity, _OBJC_METACLASS_$_SPTAppRemoteLogger, _OBJC_METACLASS_$_SPTAppRemoteMessageAbort, _OBJC_METACLASS_$_SPTAppRemoteMessageAuthenticate, _OBJC_METACLASS_$_SPTAppRemoteMessageCall, _OBJC_METACLASS_$_SPTAppRemoteMessageCancel, _OBJC_METACLASS_$_SPTAppRemoteMessageChallenge, _OBJC_METACLASS_$_SPTAppRemoteMessageError, _OBJC_METACLASS_$_SPTAppRemoteMessageEvent, _OBJC_METACLASS_$_SPTAppRemoteMessageGoodbye, _OBJC_METACLASS_$_SPTAppRemoteMessageHello, _OBJC_METACLASS_$_SPTAppRemoteMessageResult, _OBJC_METACLASS_$_SPTAppRemoteMessageStreamReader, _OBJC_METACLASS_$_SPTAppRemoteMessageStreamWriter, _OBJC_METACLASS_$_SPTAppRemoteMessageSubscribed, _OBJC_METACLASS_$_SPTAppRemoteMessageSubscribe, _OBJC_METACLASS_$_SPTAppRemoteMessageUnsubscribed, _OBJC_METACLASS_$_SPTAppRemoteMessageUnsubscribe, _OBJC_METACLASS_$_SPTAppRemoteMessageWelcome, _OBJC_METACLASS_$_SPTAppRemoteMessage, _OBJC_METACLASS_$_SPTAppRemotePayloadProxy, _OBJC_METACLASS_$_SPTAppRemotePlaybackOptionsEntity, _OBJC_METACLASS_$_SPTAppRemotePlaybackRestrictionsEntity, _OBJC_METACLASS_$_SPTAppRemotePlayerAPIImplemenation, _OBJC_METACLASS_$_SPTAppRemotePlayerStateEntity, _OBJC_METACLASS_$_SPTAppRemotePodcastPlaybackSpeedEntity, _OBJC_METACLASS_$_SPTAppRemoteRouter, _OBJC_METACLASS_$_SPTAppRemoteSessionHandler, _OBJC_METACLASS_$_SPTAppRemoteSession, _OBJC_METACLASS_$_SPTAppRemoteSocketTransport, _OBJC_METACLASS_$_SPTAppRemoteStreamTransport, _OBJC_METACLASS_$_SPTAppRemoteSubscriptionEvent, _OBJC_METACLASS_$_SPTAppRemoteSubscriptionHandler, _OBJC_METACLASS_$_SPTAppRemoteSubscriptionRequest, _OBJC_METACLASS_$_SPTAppRemoteSubscription, _OBJC_METACLASS_$_SPTAppRemoteTrackEntity, _OBJC_METACLASS_$_SPTAppRemoteUserAPIImplementation, _OBJC_METACLASS_$_SPTAppRemoteUserCapabilitiesEntity, _OBJC_METACLASS_$_SPTAppRemoteWAMPClient, _OBJC_METACLASS_$_SPTAppRemote, _OBJC_METACLASS_$_SPTConfiguration, _OBJC_METACLASS_$_SPTErrorUtils, _OBJC_METACLASS_$_SPTError, _OBJC_METACLASS_$_SPTExtendedConfiguration, _OBJC_METACLASS_$_SPTPKCEProvider, _OBJC_METACLASS_$_SPTSessionManager, _OBJC_METACLASS_$_SPTSession, _OBJC_METACLASS_$_SPTURLUtils, _SPTAppRemoteAccessTokenKey, _SPTAppRemoteContentTypeDefault, _SPTAppRemoteContentTypeFitness, _SPTAppRemoteContentTypeGaming, _SPTAppRemoteContentTypeNavigation, _SPTAppRemoteErrorDescriptionKey, _SPTAppRemoteErrorDomain, _SPTAppRemoteErrorKey, _SPTAppRemoteSemanticVersionCompare, _SPTAppRemoteSemanticVersionFromString, _SPTAppRemoteSemanticVersionMake, _SPTAppRemoteSemanticVersionZero, _SPTAppRemoteTransportErrorDomain, _SPTAppRemoteWAMPClientAbortErrorDetailsKey, _SPTAppRemoteWAMPClientErrorDomain, _SPTAppRemoteWAMPClientRemoteErrorErrorCodeKey, _SPTAppRemoteWAMPClientRemoteErrorIdentifierKey, _SPTAppRemoteWAMPClientRemoteErrorMessageTypeKey, _SPTBase64Encode, _SPTByteLengthFromBase64EncodedLength, _SPTLoginErrorDomain, _SPTPKCECreateCodeVerifier, _SPTPKCECreatePlainCodeChallenge, _SPTPKCECreateS256CodeChallenge, _SPTPKCEDefaultLength, _SPTPKCEMaximumLength, _SPTPKCEMinimumLength, _SPTPKCES256CodeChallengeLength, _cmp_error_messages, _cmp_init, _cmp_mp_version, _cmp_object_as_array, _cmp_object_as_bin, _cmp_object_as_bool, _cmp_object_as_char, _cmp_object_as_double, _cmp_object_as_ext, _cmp_object_as_float, _cmp_object_as_int, _cmp_object_as_long, _cmp_object_as_map, _cmp_object_as_short, _cmp_object_as_sinteger, _cmp_object_as_str, _cmp_object_as_uchar, _cmp_object_as_uinteger, _cmp_object_as_uint, _cmp_object_as_ulong, _cmp_object_as_ushort, _cmp_object_is_array, _cmp_object_is_bin, _cmp_object_is_bool, _cmp_object_is_char, _cmp_object_is_double, _cmp_object_is_ext, _cmp_object_is_float, _cmp_object_is_int, _cmp_object_is_long, _cmp_object_is_map, _cmp_object_is_nil, _cmp_object_is_short, _cmp_object_is_sinteger, _cmp_object_is_str, _cmp_object_is_uchar, _cmp_object_is_uinteger, _cmp_object_is_uint, _cmp_object_is_ulong, _cmp_object_is_ushort, _cmp_read_array, _cmp_read_bin_size, _cmp_read_bin, _cmp_read_bool_as_u8, _cmp_read_bool, _cmp_read_char, _cmp_read_double, _cmp_read_ext16_marker, _cmp_read_ext16, _cmp_read_ext32_marker, _cmp_read_ext32, _cmp_read_ext8_marker, _cmp_read_ext8, _cmp_read_ext_marker, _cmp_read_ext, _cmp_read_fixext16_marker, _cmp_read_fixext16, _cmp_read_fixext1_marker, _cmp_read_fixext1, _cmp_read_fixext2_marker, _cmp_read_fixext2, _cmp_read_fixext4_marker, _cmp_read_fixext4, _cmp_read_fixext8_marker, _cmp_read_fixext8, _cmp_read_float, _cmp_read_int, _cmp_read_long, _cmp_read_map, _cmp_read_nfix, _cmp_read_nil, _cmp_read_object, _cmp_read_pfix, _cmp_read_s16, _cmp_read_s32, _cmp_read_s64, _cmp_read_s8, _cmp_read_sfix, _cmp_read_short, _cmp_read_sinteger, _cmp_read_str_size, _cmp_read_str, _cmp_read_u16, _cmp_read_u32, _cmp_read_u64, _cmp_read_u8, _cmp_read_uchar, _cmp_read_ufix, _cmp_read_uinteger, _cmp_read_uint, _cmp_read_ulong, _cmp_read_ushort, _cmp_strerror, _cmp_version, _cmp_write_array16, _cmp_write_array32, _cmp_write_array, _cmp_write_bin16_marker, _cmp_write_bin16, _cmp_write_bin32_marker, _cmp_write_bin32, _cmp_write_bin8_marker, _cmp_write_bin8, _cmp_write_bin_marker, _cmp_write_bin, _cmp_write_bool, _cmp_write_double, _cmp_write_ext16_marker, _cmp_write_ext16, _cmp_write_ext32_marker, _cmp_write_ext32, _cmp_write_ext8_marker, _cmp_write_ext8, _cmp_write_ext_marker, _cmp_write_ext, _cmp_write_false, _cmp_write_fixarray, _cmp_write_fixext16_marker, _cmp_write_fixext16, _cmp_write_fixext1_marker, _cmp_write_fixext1, _cmp_write_fixext2_marker, _cmp_write_fixext2, _cmp_write_fixext4_marker, _cmp_write_fixext4, _cmp_write_fixext8_marker, _cmp_write_fixext8, _cmp_write_fixmap, _cmp_write_fixstr_marker, _cmp_write_fixstr, _cmp_write_float, _cmp_write_map16, _cmp_write_map32, _cmp_write_map, _cmp_write_nfix, _cmp_write_nil, _cmp_write_object, _cmp_write_pfix, _cmp_write_s16, _cmp_write_s32, _cmp_write_s64, _cmp_write_s8, _cmp_write_sfix, _cmp_write_sint, _cmp_write_str16_marker, _cmp_write_str16, _cmp_write_str32_marker, _cmp_write_str32, _cmp_write_str8_marker, _cmp_write_str8, _cmp_write_str_marker, _cmp_write_str, _cmp_write_true, _cmp_write_u16, _cmp_write_u32, _cmp_write_u64, _cmp_write_u8_as_bool, _cmp_write_u8, _cmp_write_ufix, _cmp_write_uint, _main
+
+_OBJC_CLASS_$_GHODictionary:
+    ret
+_OBJC_CLASS_$_MPMessagePackReader:
+    ret
+_OBJC_CLASS_$_MPMessagePackWriter:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteAlbumEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteArtistEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteCallHandler:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteCallRequest:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteCallResponse:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteConnectionParams:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteConnectivityAPIImplementation:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteConnectivityStateEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteContentAPIImplementation:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteContentItemEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteCrossfadeStateEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteImageAPIImplementation:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteLibraryStateEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteLogger:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageAbort:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageAuthenticate:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageCall:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageCancel:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageChallenge:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageError:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageEvent:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageGoodbye:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageHello:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageResult:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageStreamReader:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageStreamWriter:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageSubscribed:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageSubscribe:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageUnsubscribed:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageUnsubscribe:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessageWelcome:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteMessage:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePayloadProxy:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePlaybackOptionsEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePlaybackRestrictionsEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePlayerAPIImplemenation:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePlayerStateEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemotePodcastPlaybackSpeedEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteRouter:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSessionHandler:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSession:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSocketTransport:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteStreamTransport:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSubscriptionEvent:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSubscriptionHandler:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSubscriptionRequest:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteSubscription:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteTrackEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteUserAPIImplementation:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteUserCapabilitiesEntity:
+    ret
+_OBJC_CLASS_$_SPTAppRemoteWAMPClient:
+    ret
+_OBJC_CLASS_$_SPTAppRemote:
+    ret
+_OBJC_CLASS_$_SPTConfiguration:
+    ret
+_OBJC_CLASS_$_SPTErrorUtils:
+    ret
+_OBJC_CLASS_$_SPTError:
+    ret
+_OBJC_CLASS_$_SPTExtendedConfiguration:
+    ret
+_OBJC_CLASS_$_SPTPKCEProvider:
+    ret
+_OBJC_CLASS_$_SPTSessionManager:
+    ret
+_OBJC_CLASS_$_SPTSession:
+    ret
+_OBJC_CLASS_$_SPTURLUtils:
+    ret
+_OBJC_METACLASS_$_GHODictionary:
+    ret
+_OBJC_METACLASS_$_MPMessagePackReader:
+    ret
+_OBJC_METACLASS_$_MPMessagePackWriter:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteAlbumEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteArtistEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteCallHandler:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteCallRequest:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteCallResponse:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteConnectionParams:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteConnectivityAPIImplementation:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteConnectivityStateEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteContentAPIImplementation:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteContentItemEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteCrossfadeStateEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteImageAPIImplementation:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteLibraryStateEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteLogger:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageAbort:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageAuthenticate:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageCall:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageCancel:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageChallenge:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageError:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageEvent:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageGoodbye:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageHello:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageResult:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageStreamReader:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageStreamWriter:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageSubscribed:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageSubscribe:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageUnsubscribed:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageUnsubscribe:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessageWelcome:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteMessage:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePayloadProxy:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePlaybackOptionsEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePlaybackRestrictionsEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePlayerAPIImplemenation:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePlayerStateEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemotePodcastPlaybackSpeedEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteRouter:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSessionHandler:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSession:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSocketTransport:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteStreamTransport:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSubscriptionEvent:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSubscriptionHandler:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSubscriptionRequest:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteSubscription:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteTrackEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteUserAPIImplementation:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteUserCapabilitiesEntity:
+    ret
+_OBJC_METACLASS_$_SPTAppRemoteWAMPClient:
+    ret
+_OBJC_METACLASS_$_SPTAppRemote:
+    ret
+_OBJC_METACLASS_$_SPTConfiguration:
+    ret
+_OBJC_METACLASS_$_SPTErrorUtils:
+    ret
+_OBJC_METACLASS_$_SPTError:
+    ret
+_OBJC_METACLASS_$_SPTExtendedConfiguration:
+    ret
+_OBJC_METACLASS_$_SPTPKCEProvider:
+    ret
+_OBJC_METACLASS_$_SPTSessionManager:
+    ret
+_OBJC_METACLASS_$_SPTSession:
+    ret
+_OBJC_METACLASS_$_SPTURLUtils:
+    ret
+_SPTAppRemoteAccessTokenKey:
+    ret
+_SPTAppRemoteContentTypeDefault:
+    ret
+_SPTAppRemoteContentTypeFitness:
+    ret
+_SPTAppRemoteContentTypeGaming:
+    ret
+_SPTAppRemoteContentTypeNavigation:
+    ret
+_SPTAppRemoteErrorDescriptionKey:
+    ret
+_SPTAppRemoteErrorDomain:
+    ret
+_SPTAppRemoteErrorKey:
+    ret
+_SPTAppRemoteSemanticVersionCompare:
+    ret
+_SPTAppRemoteSemanticVersionFromString:
+    ret
+_SPTAppRemoteSemanticVersionMake:
+    ret
+_SPTAppRemoteSemanticVersionZero:
+    ret
+_SPTAppRemoteTransportErrorDomain:
+    ret
+_SPTAppRemoteWAMPClientAbortErrorDetailsKey:
+    ret
+_SPTAppRemoteWAMPClientErrorDomain:
+    ret
+_SPTAppRemoteWAMPClientRemoteErrorErrorCodeKey:
+    ret
+_SPTAppRemoteWAMPClientRemoteErrorIdentifierKey:
+    ret
+_SPTAppRemoteWAMPClientRemoteErrorMessageTypeKey:
+    ret
+_SPTBase64Encode:
+    ret
+_SPTByteLengthFromBase64EncodedLength:
+    ret
+_SPTLoginErrorDomain:
+    ret
+_SPTPKCECreateCodeVerifier:
+    ret
+_SPTPKCECreatePlainCodeChallenge:
+    ret
+_SPTPKCECreateS256CodeChallenge:
+    ret
+_SPTPKCEDefaultLength:
+    ret
+_SPTPKCEMaximumLength:
+    ret
+_SPTPKCEMinimumLength:
+    ret
+_SPTPKCES256CodeChallengeLength:
+    ret
+_cmp_error_messages:
+    ret
+_cmp_init:
+    ret
+_cmp_mp_version:
+    ret
+_cmp_object_as_array:
+    ret
+_cmp_object_as_bin:
+    ret
+_cmp_object_as_bool:
+    ret
+_cmp_object_as_char:
+    ret
+_cmp_object_as_double:
+    ret
+_cmp_object_as_ext:
+    ret
+_cmp_object_as_float:
+    ret
+_cmp_object_as_int:
+    ret
+_cmp_object_as_long:
+    ret
+_cmp_object_as_map:
+    ret
+_cmp_object_as_short:
+    ret
+_cmp_object_as_sinteger:
+    ret
+_cmp_object_as_str:
+    ret
+_cmp_object_as_uchar:
+    ret
+_cmp_object_as_uinteger:
+    ret
+_cmp_object_as_uint:
+    ret
+_cmp_object_as_ulong:
+    ret
+_cmp_object_as_ushort:
+    ret
+_cmp_object_is_array:
+    ret
+_cmp_object_is_bin:
+    ret
+_cmp_object_is_bool:
+    ret
+_cmp_object_is_char:
+    ret
+_cmp_object_is_double:
+    ret
+_cmp_object_is_ext:
+    ret
+_cmp_object_is_float:
+    ret
+_cmp_object_is_int:
+    ret
+_cmp_object_is_long:
+    ret
+_cmp_object_is_map:
+    ret
+_cmp_object_is_nil:
+    ret
+_cmp_object_is_short:
+    ret
+_cmp_object_is_sinteger:
+    ret
+_cmp_object_is_str:
+    ret
+_cmp_object_is_uchar:
+    ret
+_cmp_object_is_uinteger:
+    ret
+_cmp_object_is_uint:
+    ret
+_cmp_object_is_ulong:
+    ret
+_cmp_object_is_ushort:
+    ret
+_cmp_read_array:
+    ret
+_cmp_read_bin_size:
+    ret
+_cmp_read_bin:
+    ret
+_cmp_read_bool_as_u8:
+    ret
+_cmp_read_bool:
+    ret
+_cmp_read_char:
+    ret
+_cmp_read_double:
+    ret
+_cmp_read_ext16_marker:
+    ret
+_cmp_read_ext16:
+    ret
+_cmp_read_ext32_marker:
+    ret
+_cmp_read_ext32:
+    ret
+_cmp_read_ext8_marker:
+    ret
+_cmp_read_ext8:
+    ret
+_cmp_read_ext_marker:
+    ret
+_cmp_read_ext:
+    ret
+_cmp_read_fixext16_marker:
+    ret
+_cmp_read_fixext16:
+    ret
+_cmp_read_fixext1_marker:
+    ret
+_cmp_read_fixext1:
+    ret
+_cmp_read_fixext2_marker:
+    ret
+_cmp_read_fixext2:
+    ret
+_cmp_read_fixext4_marker:
+    ret
+_cmp_read_fixext4:
+    ret
+_cmp_read_fixext8_marker:
+    ret
+_cmp_read_fixext8:
+    ret
+_cmp_read_float:
+    ret
+_cmp_read_int:
+    ret
+_cmp_read_long:
+    ret
+_cmp_read_map:
+    ret
+_cmp_read_nfix:
+    ret
+_cmp_read_nil:
+    ret
+_cmp_read_object:
+    ret
+_cmp_read_pfix:
+    ret
+_cmp_read_s16:
+    ret
+_cmp_read_s32:
+    ret
+_cmp_read_s64:
+    ret
+_cmp_read_s8:
+    ret
+_cmp_read_sfix:
+    ret
+_cmp_read_short:
+    ret
+_cmp_read_sinteger:
+    ret
+_cmp_read_str_size:
+    ret
+_cmp_read_str:
+    ret
+_cmp_read_u16:
+    ret
+_cmp_read_u32:
+    ret
+_cmp_read_u64:
+    ret
+_cmp_read_u8:
+    ret
+_cmp_read_uchar:
+    ret
+_cmp_read_ufix:
+    ret
+_cmp_read_uinteger:
+    ret
+_cmp_read_uint:
+    ret
+_cmp_read_ulong:
+    ret
+_cmp_read_ushort:
+    ret
+_cmp_strerror:
+    ret
+_cmp_version:
+    ret
+_cmp_write_array16:
+    ret
+_cmp_write_array32:
+    ret
+_cmp_write_array:
+    ret
+_cmp_write_bin16_marker:
+    ret
+_cmp_write_bin16:
+    ret
+_cmp_write_bin32_marker:
+    ret
+_cmp_write_bin32:
+    ret
+_cmp_write_bin8_marker:
+    ret
+_cmp_write_bin8:
+    ret
+_cmp_write_bin_marker:
+    ret
+_cmp_write_bin:
+    ret
+_cmp_write_bool:
+    ret
+_cmp_write_double:
+    ret
+_cmp_write_ext16_marker:
+    ret
+_cmp_write_ext16:
+    ret
+_cmp_write_ext32_marker:
+    ret
+_cmp_write_ext32:
+    ret
+_cmp_write_ext8_marker:
+    ret
+_cmp_write_ext8:
+    ret
+_cmp_write_ext_marker:
+    ret
+_cmp_write_ext:
+    ret
+_cmp_write_false:
+    ret
+_cmp_write_fixarray:
+    ret
+_cmp_write_fixext16_marker:
+    ret
+_cmp_write_fixext16:
+    ret
+_cmp_write_fixext1_marker:
+    ret
+_cmp_write_fixext1:
+    ret
+_cmp_write_fixext2_marker:
+    ret
+_cmp_write_fixext2:
+    ret
+_cmp_write_fixext4_marker:
+    ret
+_cmp_write_fixext4:
+    ret
+_cmp_write_fixext8_marker:
+    ret
+_cmp_write_fixext8:
+    ret
+_cmp_write_fixmap:
+    ret
+_cmp_write_fixstr_marker:
+    ret
+_cmp_write_fixstr:
+    ret
+_cmp_write_float:
+    ret
+_cmp_write_map16:
+    ret
+_cmp_write_map32:
+    ret
+_cmp_write_map:
+    ret
+_cmp_write_nfix:
+    ret
+_cmp_write_nil:
+    ret
+_cmp_write_object:
+    ret
+_cmp_write_pfix:
+    ret
+_cmp_write_s16:
+    ret
+_cmp_write_s32:
+    ret
+_cmp_write_s64:
+    ret
+_cmp_write_s8:
+    ret
+_cmp_write_sfix:
+    ret
+_cmp_write_sint:
+    ret
+_cmp_write_str16_marker:
+    ret
+_cmp_write_str16:
+    ret
+_cmp_write_str32_marker:
+    ret
+_cmp_write_str32:
+    ret
+_cmp_write_str8_marker:
+    ret
+_cmp_write_str8:
+    ret
+_cmp_write_str_marker:
+    ret
+_cmp_write_str:
+    ret
+_cmp_write_true:
+    ret
+_cmp_write_u16:
+    ret
+_cmp_write_u32:
+    ret
+_cmp_write_u64:
+    ret
+_cmp_write_u8_as_bool:
+    ret
+_cmp_write_u8:
+    ret
+_cmp_write_ufix:
+    ret
+_cmp_write_uint:
+    ret
+_main:
+    ret
